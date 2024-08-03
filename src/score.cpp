@@ -38,7 +38,7 @@ void Score::setUserName()
 
 
 // setUserScore writes user score to user_core
-void Score::setUserScoreData(int score, int size)
+void Score::setUserScoreData(int const score, int const size)
 {
     user_score = std::max(0, score);
     snake_size = std::max(0, size);
@@ -117,12 +117,13 @@ void Score::ReadPreviousGameScoreData()
 
 
 // setHighScoreData records the record data to private variables
-void Score::setRecordScoreData(std::string name, int score, int size)
+void Score::setRecordScoreData(std::string const name, int const score, int const size)
 {
     record_user_name = name;
     record_score = std::max(0, score);
     record_size = std::max(0, size);
 }
+
 
 // getUserScoreData returns the user's score data stored in private variables
 std::string Score::getUserScoreData()
@@ -130,6 +131,7 @@ std::string Score::getUserScoreData()
     std::string score_data = user_name + " " + std::to_string(user_score) + " " + std::to_string(snake_size);
     return score_data;
 }
+
 
 // getRecordScoreData returns the record high score data stored in private variables
 std::string Score::getRecordScoreData()

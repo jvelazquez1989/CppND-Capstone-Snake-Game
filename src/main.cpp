@@ -6,7 +6,8 @@
 
 int main() {
 
-  Score UserScore;
+  //Create Score object to keep track and record user score
+  Score UserScore(0,0); //Initialize score and size to 0
   UserScore.setUserName();
 
   constexpr std::size_t kFramesPerSecond{60};
@@ -20,9 +21,6 @@ int main() {
   Controller controller;
   Game game(kGridWidth, kGridHeight);
   game.Run(controller, renderer, kMsPerFrame);
-  
-  //std::cout << "Score: " << game.GetScore() << "\n";
-  //std::cout << "Size: " << game.GetSize() << "\n";
 
   //Record user score
   UserScore.setUserScoreData(game.GetScore(), game.GetSize());

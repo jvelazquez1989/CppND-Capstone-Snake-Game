@@ -18,6 +18,8 @@ class Game {
  private:
   Snake snake;
   SDL_Point food;
+  SDL_Point green_food; //new code
+  SDL_Point purple_food; //new code
 
   std::random_device dev;
   std::mt19937 engine;
@@ -27,7 +29,14 @@ class Game {
   int score{0};
 
   void PlaceFood();
+  void PlaceGreenFood(); //new code
+  void PlacePurpleFood(); //new code
   void Update();
+
+  bool move_green_food{false}; //Flag indicating green food needs to be moved to new location
+  bool eat_green_food{true}; //Flag indicating green food has been eaten
+  bool move_purple_food{false}; //Flag indicating purple food needs to be moved to new location
+  bool eat_purple_food{true}; //Flag indicating purple food has been eaten
 };
 
 #endif

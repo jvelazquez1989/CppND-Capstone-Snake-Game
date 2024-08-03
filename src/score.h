@@ -7,12 +7,12 @@
 class Score {
     public:
     //Constructor
-    //Score() {}
+    Score(int score, int size){setUserScoreData(score, size);}
 
     //Define setters
     void setUserName();
-    void setUserScoreData(int score, int size);
-    void setRecordScoreData(std::string name, int score, int size);
+    void setUserScoreData(int const score, int const size);
+    void setRecordScoreData(std::string const name, int const score, int const size);
 
     //Define getters
     std::string getUserScoreData();

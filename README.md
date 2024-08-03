@@ -44,3 +44,24 @@ This work is licensed under a
 [cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
 [cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
 [cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
+
+
+## New Features
+1. Players can add their names and the game can save their high scores
+
+Criteria met:
+I: The project reads data from a file and process the data, or the program writes data
+II: The project accepts user input and processes the input
+
+2. The game will randomly add three different types of food on the map:
+    a) Yellow = 1 point
+    b) Green = 2 points
+    c) Purple = 5 points
+
+3. The snake will need to watch out for a honey badger on the hunt!
+    A honey badger (red) will randomly walk the game map
+    If the honey badger touches any part of the snake, the snake dies
+    The honey badger speed will change based on the type of food on the map:
+    Yellow food = 1x speed
+    Green food = 1.5x speed
+    Purple food = 2x speed
