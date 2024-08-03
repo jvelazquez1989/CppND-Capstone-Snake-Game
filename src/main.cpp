@@ -2,8 +2,13 @@
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
+#include "score.h"
 
 int main() {
+
+  Score UserScore;
+  UserScore.setUserName();
+
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kScreenWidth{640};
@@ -15,8 +20,20 @@ int main() {
   Controller controller;
   Game game(kGridWidth, kGridHeight);
   game.Run(controller, renderer, kMsPerFrame);
+  
+  //std::cout << "Score: " << game.GetScore() << "\n";
+  //std::cout << "Size: " << game.GetSize() << "\n";
+
+  //Record user score
+  UserScore.setUserScoreData(game.GetScore(), game.GetSize());
+
+  //Read previous high score data from file
+  UserScore.ReadPreviousGameScoreData();
+
+  //Write current user score data to file
+  UserScore.WriteGameScoreData(); 
+
   std::cout << "Game has terminated successfully!\n";
-  std::cout << "Score: " << game.GetScore() << "\n";
-  std::cout << "Size: " << game.GetSize() << "\n";
+
   return 0;
 }
