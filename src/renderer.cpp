@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 
+#include <vector>
+
+
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height,
                    const std::size_t grid_width, const std::size_t grid_height)
@@ -38,10 +41,15 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food) {
+//void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, Food *orange_food) {
+void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, std::shared_ptr<Food> orange_food) {
+
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
+  
+  std::vector<int> food_color;
+  std::vector<int> food_pos;
 
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
@@ -63,6 +71,15 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const 
   SDL_SetRenderDrawColor(sdl_renderer, 0x94, 0x00, 0xD3, 0xFF);
   block.x = purple_food.x * block.w;
   block.y = purple_food.y * block.h;
+  SDL_RenderFillRect(sdl_renderer, &block);
+
+  // Render Orange food (new code)
+  //SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x45, 0x00, 0xFF);
+  food_color = orange_food->getFoodColor();
+  SDL_SetRenderDrawColor(sdl_renderer, food_color[0], food_color[1], food_color[2], 0xFF);
+  food_pos = orange_food->getFoodPosition();
+  block.x = food_pos[0] * block.w;
+  block.y = food_pos[1] * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render snake's body

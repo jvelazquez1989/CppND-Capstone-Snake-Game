@@ -7,6 +7,9 @@
 #include "renderer.h"
 #include "snake.h"
 
+#include "food.h"
+#include <memory>
+
 class Game {
  public:
   Game(std::size_t grid_width, std::size_t grid_height);
@@ -21,6 +24,9 @@ class Game {
   SDL_Point green_food; //new code
   SDL_Point purple_food; //new code
 
+  //Food *orange_food = new Food(0, 0, 0xFF, 0x45, 0x00, 1, 0.01, 3); //new code
+  std::shared_ptr<Food> orange_food = std::make_shared<Food>(0, 0, 0xFF, 0x45, 0x00, 1, 0.01, 3);
+
   std::random_device dev;
   std::mt19937 engine;
   std::uniform_int_distribution<int> random_w;
@@ -31,6 +37,8 @@ class Game {
   void PlaceFood();
   void PlaceGreenFood(); //new code
   void PlacePurpleFood(); //new code
+  //void PlaceNewFood(Food *food); //new code
+  void PlaceNewFood(std::shared_ptr<Food> food); //new code
   void Update();
 
   bool move_green_food{false}; //Flag indicating green food needs to be moved to new location
