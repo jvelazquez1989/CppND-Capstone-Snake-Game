@@ -9,6 +9,7 @@
 
 #include "food.h"
 #include <memory>
+#include "badger.h"
 
 class Game {
  public:
@@ -20,12 +21,11 @@ class Game {
 
  private:
   Snake snake;
-  SDL_Point food;
-  SDL_Point green_food; //new code
-  SDL_Point purple_food; //new code
+  Badger badger;
 
-  //Food *orange_food = new Food(0, 0, 0xFF, 0x45, 0x00, 1, 0.01, 3); //new code
-  std::shared_ptr<Food> orange_food = std::make_shared<Food>(0, 0, 0xFF, 0x45, 0x00, 1, 0.01, 3);
+  std::shared_ptr<Food> green_food;
+  std::shared_ptr<Food> purple_food;
+  std::shared_ptr<Food> yellow_food;
 
   std::random_device dev;
   std::mt19937 engine;
@@ -34,17 +34,8 @@ class Game {
 
   int score{0};
 
-  void PlaceFood();
-  void PlaceGreenFood(); //new code
-  void PlacePurpleFood(); //new code
-  //void PlaceNewFood(Food *food); //new code
   void PlaceNewFood(std::shared_ptr<Food> food); //new code
   void Update();
-
-  bool move_green_food{false}; //Flag indicating green food needs to be moved to new location
-  bool eat_green_food{true}; //Flag indicating green food has been eaten
-  bool move_purple_food{false}; //Flag indicating purple food needs to be moved to new location
-  bool eat_purple_food{true}; //Flag indicating purple food has been eaten
 };
 
 #endif

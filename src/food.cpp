@@ -35,7 +35,6 @@ std::vector<int> Food::getFoodPosition()
     return food_position;
 }
 
-
 //getFoodColor returns the values of R G B of the food
 std::vector<int> Food::getFoodColor()
 {

@@ -7,7 +7,7 @@
 class Food{
     public:
     //Constructor
-    Food(int x, int y, int const r, int const g, int const b, int const points, float const speed, float time): R(r), G(g), B(b), score_points(points), speed_gain(speed), timer(time) {
+    Food(int x, int y, int const r, int const g, int const b, int const points, float const speed, float time): R(r), G(g), B(b), score_points(points), speed_gain(speed), timer(time*1000) {
         setFoodPosition(x, y);
         //setFoodColor(r, g, b);
     }

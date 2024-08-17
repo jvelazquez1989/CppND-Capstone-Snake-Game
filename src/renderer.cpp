@@ -41,8 +41,9 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-//void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, Food *orange_food) {
-void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, std::shared_ptr<Food> orange_food) {
+//void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, Food *yellow_food) {
+//void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, std::shared_ptr<Food> yellow_food) {
+void Renderer::Render(Snake const snake, Badger const badger, std::shared_ptr<Food> green_food, std::shared_ptr<Food> purple_food, std::shared_ptr<Food> yellow_food) {
 
   SDL_Rect block;
   block.w = screen_width / grid_width;
@@ -55,29 +56,26 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const 
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
-  // Render food
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
-  block.x = food.x * block.w;
-  block.y = food.y * block.h;
-  SDL_RenderFillRect(sdl_renderer, &block);
-
   // Render GREEN food (new code)
-  SDL_SetRenderDrawColor(sdl_renderer, 0x7C, 0xFC, 0x00, 0xFF);
-  block.x = green_food.x * block.w;
-  block.y = green_food.y * block.h;
+  food_color = green_food->getFoodColor();
+  SDL_SetRenderDrawColor(sdl_renderer, food_color[0], food_color[1], food_color[2], 0xFF);
+  food_pos = green_food->getFoodPosition();
+  block.x = food_pos[0] * block.w;
+  block.y = food_pos[1] * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render PURPLE food (new code)
-  SDL_SetRenderDrawColor(sdl_renderer, 0x94, 0x00, 0xD3, 0xFF);
-  block.x = purple_food.x * block.w;
-  block.y = purple_food.y * block.h;
+  food_color = purple_food->getFoodColor();
+  SDL_SetRenderDrawColor(sdl_renderer, food_color[0], food_color[1], food_color[2], 0xFF);
+  food_pos = purple_food->getFoodPosition();
+  block.x = food_pos[0] * block.w;
+  block.y = food_pos[1] * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
 
-  // Render Orange food (new code)
-  //SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x45, 0x00, 0xFF);
-  food_color = orange_food->getFoodColor();
+  // Render YELLOW food (new code)
+  food_color = yellow_food->getFoodColor();
   SDL_SetRenderDrawColor(sdl_renderer, food_color[0], food_color[1], food_color[2], 0xFF);
-  food_pos = orange_food->getFoodPosition();
+  food_pos = yellow_food->getFoodPosition();
   block.x = food_pos[0] * block.w;
   block.y = food_pos[1] * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
@@ -98,6 +96,12 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, SDL_Point const 
   } else {
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
   }
+  SDL_RenderFillRect(sdl_renderer, &block);
+
+  //Render badger's head
+  block.x = static_cast<int>(badger.head_x) * block.w;
+  block.y = static_cast<int>(badger.head_y) * block.h;
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Update Screen

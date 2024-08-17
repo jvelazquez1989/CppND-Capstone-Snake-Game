@@ -7,6 +7,7 @@
 
 #include "food.h"
 #include <memory>
+#include "badger.h"
 
 class Renderer {
  public:
@@ -15,7 +16,8 @@ class Renderer {
   ~Renderer();
 
   //void Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, Food *orange_food); //new code
-  void Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, std::shared_ptr<Food> orange_food); //new code
+  //void Render(Snake const snake, SDL_Point const &food, SDL_Point const &green_food, SDL_Point const &purple_food, std::shared_ptr<Food> orange_food); //new code
+  void Render(Snake const snake, Badger const badger, std::shared_ptr<Food> green_food, std::shared_ptr<Food> purple_food, std::shared_ptr<Food> yellow_food); //new code
   void UpdateWindowTitle(int score, int fps);
 
  private:
