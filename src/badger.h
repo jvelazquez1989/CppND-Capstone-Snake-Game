@@ -1,9 +1,7 @@
 #ifndef BADGER_H
 #define BADGER_H
 
-#include <random>
-#include <vector>
-#include "SDL.h"
+
 
 class Badger {
  public:
@@ -11,7 +9,7 @@ class Badger {
   //Constructor
   Badger(int grid_width, int grid_height): grid_width(grid_width), 
                                                 grid_height(grid_height){ }
-
+  
   void UpdateBadger();
 
   //Direction direction = Direction::kUp;
@@ -23,9 +21,8 @@ class Badger {
 
  private:
   void UpdateBadgerHead();
-
   int grid_width;
-  int grid_height;
+  int grid_height;  
 };
 
 #endif

@@ -2,16 +2,21 @@
 #include <iostream>
 #include "SDL.h"
 
-
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
-      badger(grid_width, grid_height),//new code
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
   yellow_food = std::make_shared<Food>(16, 10, 0xFF, 0xCC, 0x00, 1, 0.01, 10);
   green_food = std::make_shared<Food>(1, 16, 0x7C, 0xFC, 0x00, 2, 0.02, 5);
   purple_food = std::make_shared<Food>(30, 16, 0x94, 0x00, 0xD3, 4, 0.04, 2.5);
+  pBadger = std::make_shared<Badger>(grid_width,grid_height);
+  badger_thread = std::thread(&Badger::UpdateBadger, pBadger); //launch thread for badger
+}
+
+Game::~Game()
+{
+  badger_thread.join();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -30,24 +35,16 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int purple_food_frame_count = 0;
 
   Uint32 yellow_food_frame_timestamp = SDL_GetTicks();  
-  int yellow_food_frame_count = 0;
- 
-  //std::cout << "check point 1" << "\n";
+  int yellow_food_frame_count = 0; 
+
 
   while (running) {
     frame_start = SDL_GetTicks();    
 
     // Input, Update, Render - the main game loop.
-    //std::cout << "check point 2" << "\n";
     controller.HandleInput(running, snake);
-    //std::cout << "yellow_food pointer = " << yellow_food << "\n";
-    //std::cout << "check point 3" << "\n";
     Update();
-    //std::cout << "check point 4" << "\n";
-    //renderer.Render(snake, food, green_food, purple_food, yellow_food); //new code
-    //renderer.Render(snake, food, green_food, purple_food, yellow_food); //new code
-    renderer.Render(snake, badger, green_food, purple_food, yellow_food); //new code
-    //std::cout << "check point 5" << "\n";
+    renderer.Render(snake, green_food, purple_food, yellow_food, pBadger); //new code
 
     frame_end = SDL_GetTicks();
 
@@ -66,7 +63,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       frame_count = 0;
       title_timestamp = frame_end;
     } 
-
 
     // Reset green food timer if food has been eaten
     if(green_food->getEatFlagState())
@@ -129,10 +125,11 @@ void Game::Update() {
   if (!snake.alive) return;
   
   snake.Update();
-  badger.UpdateBadger();
 
-  // Check if badger has eaten snake
-  if(snake.SnakeCell(badger.head_x, badger.head_y)){snake.alive = false;}
+  //read badger data under lock
+  std::lock_guard<std::mutex> lock(mtx);
+  pBadger->UpdateBadger();
+  if(snake.SnakeCell(pBadger->head_x, pBadger->head_y)){snake.alive = false;} // Check if badger has eaten snake
 
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
@@ -140,13 +137,10 @@ void Game::Update() {
   
 
   // Check if there's yellow food over here
-  //std::cout << "checkpoint  3a" << "\n";
   food_pos = yellow_food->getFoodPosition();
   //std::cout << "checkpoint  3b" << "\n";  
   if (food_pos[0] == new_x && food_pos[1] == new_y) {
-    ///std::cout << "orange food eaten" << "\n";
-    //std::cout << "food pos x = " << food_pos[0] << " food pos y = " << food_pos[1] << "\n";
-    //score++;//increase score
+    //increase score
     score += yellow_food->getScorePoints();
     PlaceNewFood(yellow_food);
     yellow_food->setMoveFlag(false);
@@ -166,7 +160,6 @@ void Game::Update() {
 
 
   // Check if there's green food over here
-  //std::vector<int> food_pos = green_food->getFoodPosition();
   food_pos = green_food->getFoodPosition();
   if (food_pos[0] == new_x && food_pos[1] == new_y) {
     //increase score
@@ -222,7 +215,6 @@ int Game::GetSize() const { return snake.size; }
 
 
 void Game::PlaceNewFood(std::shared_ptr<Food> food) {
-
   int x, y;
   while (true) {
     x = random_w(engine);

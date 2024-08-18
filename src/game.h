@@ -8,12 +8,22 @@
 #include "snake.h"
 
 #include "food.h"
-#include <memory>
 #include "badger.h"
+#include <memory>
+#include <chrono>
+#include <thread>
+#include <mutex>
 
 class Game {
  public:
+
+  //Constructor
   Game(std::size_t grid_width, std::size_t grid_height);
+
+  //Descructor
+  ~Game();
+
+  //Member functions
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
@@ -21,7 +31,10 @@ class Game {
 
  private:
   Snake snake;
-  Badger badger;
+
+  std::shared_ptr<Badger> pBadger;
+  std::thread badger_thread;
+  std::mutex mtx;
 
   std::shared_ptr<Food> green_food;
   std::shared_ptr<Food> purple_food;
@@ -33,7 +46,6 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
-
   void PlaceNewFood(std::shared_ptr<Food> food); //new code
   void Update();
 };

@@ -5,7 +5,11 @@
 void Badger::UpdateBadger()
 {    
     direction += std::rand() % (5+1);
-    if(direction > 1000) {direction = std::rand() % (500+1);}
+    if(direction > 1000)
+    {
+      direction = std::rand() % (500+1); //reset direction to a random number
+      speed += 0.01; //increase speed after every loop
+    }
     UpdateBadgerHead();
 }
 

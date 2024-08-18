@@ -49,19 +49,57 @@ This work is licensed under a
 ## New Features
 1. Players can add their names and the game can save their high scores
 
-Criteria met:
-I: The project reads data from a file and process the data, or the program writes data
-II: The project accepts user input and processes the input
-
 2. The game will randomly add three different types of food on the map:
-    a) Yellow = 1 point
-    b) Green = 2 points
-    c) Purple = 5 points
+    a) Yellow = 1 point + 0.1 speed
+    b) Green = 2 points + 0.2 speed
+    c) Purple = 4 points + 0.4 speed
 
 3. The snake will need to watch out for a honey badger on the hunt!
-    A honey badger (red) will randomly walk the game map
+    A honey badger (pink) will randomly walk the game map
     If the honey badger touches any part of the snake, the snake dies
-    The honey badger speed will change based on the type of food on the map:
-    Yellow food = 1x speed
-    Green food = 1.5x speed
-    Purple food = 2x speed
+    The honey badger speed will slowly increase as the game progresses
+
+## Rubric Evidence - Loops, Functions, I/O
+### The project accepts user input and processes the input.
+- 'score.h' and 'score.cpp' prompt the user for input and processes the data for the game session
+- main.cpp line 11 triggers prompt for user to enter their name
+- 'setUserName()' function processes the user input to make sure the user has entered a name. The function also deletes any spaces and replaces it with an underscore
+
+### The project reads data from a file and process the data, or the program writes data to a file.
+- 'score.h' and 'score.cpp' writes the user name, score, and snake size to game_score.txt
+- 'ReadPreviousGameScoreData()' parses game_score.txt to find the previous high score data
+- 'WriteGameScoreData()' writes the user score data to game_score.txt and also reports if the current user score is the new high score
+
+## Rubric Evidence - Object Oriented Programing
+### One or more classes are added to the project with appropriate access specifiers for class members.
+- 'food.h' and 'food.cpp' create a new class 'Food' to hold all of the data related to food items. This allows for multiple food objects to be easily created and placed on the map with different settings such as color, speed, and points
+
+### Class constructors utilize member initialization lists.
+- 'Food' constructor initializes private variables with initialization lists
+
+### Classes abstract implementation details from their interfaces.
+- 'food.h' and 'food.cpp' abstract the implementation details and clearly documents the function effect via the function name for Food objects
+- 'score.h' and 'score.cpp' abstract the implementation details and clearly documents the function effect via the function name for Score objects
+
+## Memory Management
+### The project uses destructors appropriately
+- 'game.cpp' uses the class destructor '~Game()' to join the badger thread back into the main thread before closing the program
+
+### The project uses smart pointers instead of raw pointers.
+- 'food.h' uses shared pointers for each of the three food objects. The pointers are used by 'game.cpp' to access and update food item data
+
+### NEED ONE MORE
+
+
+## Concurrency
+### The project uses multithreading.
+- 'badger.h' and 'badger.cpp' create a Badger class which is used to run the badger on a separate thread
+- 'game.h' defines a smart pointer to a badger object and a thread to run the badger object
+- 'game.cpp' lines 13 and 14 create the badger object and thread
+
+### A mutex or lock is used in the project
+- 'game.cpp' uses a 'lock_guard' to read the badger head x and y position under lock
+
+
+
+
