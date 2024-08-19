@@ -2,6 +2,7 @@
 #include <iostream>
 #include "SDL.h"
 
+//Constructor
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
@@ -14,6 +15,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
   badger_thread = std::thread(&Badger::UpdateBadger, pBadger); //launch thread for badger
 }
 
+//Destructor
 Game::~Game()
 {
   badger_thread.join();
@@ -138,7 +140,6 @@ void Game::Update() {
 
   // Check if there's yellow food over here
   food_pos = yellow_food->getFoodPosition();
-  //std::cout << "checkpoint  3b" << "\n";  
   if (food_pos[0] == new_x && food_pos[1] == new_y) {
     //increase score
     score += yellow_food->getScorePoints();
@@ -214,7 +215,7 @@ int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
 
 
-void Game::PlaceNewFood(std::shared_ptr<Food> food) {
+void Game::PlaceNewFood(std::shared_ptr<Food> &food) {
   int x, y;
   while (true) {
     x = random_w(engine);

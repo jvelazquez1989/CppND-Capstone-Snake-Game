@@ -20,7 +20,7 @@ class Game {
   //Constructor
   Game(std::size_t grid_width, std::size_t grid_height);
 
-  //Descructor
+  //Destructor
   ~Game();
 
   //Member functions
@@ -46,7 +46,7 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
-  void PlaceNewFood(std::shared_ptr<Food> food); //new code
+  void PlaceNewFood(std::shared_ptr<Food> &food); //new code
   void Update();
 };
 

@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 
+//UpdateBadger calculates a random direction and calls the update badger function
 void Badger::UpdateBadger()
 {    
     direction += std::rand() % (5+1);
@@ -13,6 +14,7 @@ void Badger::UpdateBadger()
     UpdateBadgerHead();
 }
 
+//UpdateBadgerHead updates the badger x and y coordinates based on the direction value
 void Badger::UpdateBadgerHead()
 {
   if(direction <= 250){head_y -= speed;} //move up

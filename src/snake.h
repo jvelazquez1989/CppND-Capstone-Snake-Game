@@ -13,6 +13,23 @@ class Snake {
         grid_height(grid_height),
         head_x(grid_width / 2),
         head_y(grid_height / 2) {}
+  
+  //Copy constructor
+  ///Snake(const Snake &source){}
+  Snake(const Snake &source)
+  {
+    direction = source.direction;
+    speed = source.speed;
+    size = source.size;
+    alive = source.alive;
+    head_x = source.head_x;
+    head_y = source.head_y;
+    body = source.body;
+    
+    growing = source.growing;
+    grid_width = source.grid_width;
+    grid_height = source.grid_height;
+  }
 
   void Update();
 

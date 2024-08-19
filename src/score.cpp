@@ -70,10 +70,6 @@ void Score::ReadPreviousGameScoreData()
         }        
     }
 
-    /*for(int i = 0; i < name.size(); i++){
-        std::cout << "name = " << name[i] << " | score = " << score[i] << " | size = " << size[i] << "\n";
-    }*/
-
     for(int i = 0; i < score.size(); i++)
     {
         for(int j = i + 1; j < score.size(); j++)
@@ -101,12 +97,6 @@ void Score::ReadPreviousGameScoreData()
 
     //Set record score data
     setRecordScoreData(name[0], score[0], size[0]);
-   
-
-    /*for(int i = 0; i < name.size(); i++){
-         std::cout << "Sorted list" << "\n";
-        std::cout << "name = " << name[i] << " | score = " << score[i] << " | size = " << size[i] << "\n";
-    }*/
 
     std::cout << "-----------------Previous High Score-----------------------" << "\n";
     std::cout << "User Name: " << name[0] << "\n";
@@ -146,9 +136,6 @@ void Score::WriteGameScoreData()
 {
     std::string user_score_data = getUserScoreData();
     std::string record_score_data = getRecordScoreData();
-
-    //std::cout << "User Score Data = " << user_score_data << "\n";
-    //std::cout << "Record Score Data = " << record_score_data << "\n";
 
     std::string name, record_name;
     int score, record_score;
